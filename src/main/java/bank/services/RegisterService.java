@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import bank.db.ConnectBox;
+import bank.menu.BankMenu;
+import bank.menu.MainMenu;
+import bank.menu.RegisterMenu;
 import bank.pojo.User;
 
 public class RegisterService {
 
-	public void registerNewUser(User user) {
+	public void registerNewUser(User user, MainMenu mainMenu, RegisterMenu registerMenu) {
 
 		Connection con=null;
 		try {
@@ -43,6 +46,9 @@ public class RegisterService {
 			System.out.println(stmt);
 			int i = stmt.executeUpdate();
 			System.out.println(i + " records inserted");
+			BankMenu bankMenu = new BankMenu();
+			System.out.println("Welcome to your new account " + userName + "!");
+			bankMenu.displayWithAcct(user, mainMenu);
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

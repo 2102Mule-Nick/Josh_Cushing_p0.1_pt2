@@ -5,18 +5,21 @@ import java.util.Scanner;
 import bank.services.LoginService;
 
 public class LoginMenu {
+	
 	// Make a field that is an object of the LoginMenu class. Set it to null.
 	private static LoginMenu loginMenu = null;
-
-	//Instantiate a loginService object.
-	LoginService loginService = new LoginService();
-
-	//Additionally, a field to store a final value for going back one menu.
-	final String back = "BACK";
 	
-	// Also make a field that is a public scanner.
-	public Scanner scanner = new Scanner(System.in);
+	//Instantiate a loginService object.
+	private LoginService loginService = new LoginService();
 
+	//Make a field to store a final value for going back one menu.
+	public final String back = "BACK";
+	
+	// Make a field that is a public scanner.
+	public Scanner scanner = new Scanner(System.in);
+	
+//------------------------------------------------------------------------------------
+	
 	// Create the singleton method that allows only one LoginMenu object to ever be
 	// instantiated.
 	public static synchronized LoginMenu theOnlyLoginMenu() {
@@ -26,7 +29,7 @@ public class LoginMenu {
 		return loginMenu;
 	}
 
-	public void displayLoginBox(MainMenu mainMenu, LoginMenu loginMenu, RegisterMenu registerMenu) {
+	public void displayLoginBox(MainMenu mainMenu) {
 
 		// Prompt user for userName
 		System.out.println("<-LOGIN MENU->");
@@ -38,7 +41,7 @@ public class LoginMenu {
 
 		// Making sure that the input is not "BACK"
 		if (userName.equals(back)) {
-			mainMenu.displayMenuItems(loginMenu, registerMenu);
+			mainMenu.displayMenuItems();
 		}
 
 		// Prompt user for passWord
@@ -50,13 +53,11 @@ public class LoginMenu {
 
 		// Making sure that the input is not "BACK"
 		if (userName.equals(back)) {
-			mainMenu.displayMenuItems(loginMenu, registerMenu);
+			mainMenu.displayMenuItems();
 		}
 
-		
-		
 		// Send userName and passWord to loginService.
-		loginService.logInUser(userName, passWord, mainMenu, loginMenu, registerMenu);
+		loginService.logInUser(userName, passWord, mainMenu, loginMenu);
 	}
 
 }

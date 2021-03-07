@@ -6,28 +6,32 @@ import bank.pojo.User;
 import bank.services.RegisterService;
 
 public class RegisterMenu {
+	
 	// Make a field that is an object of the RegisterMenu class. Set it to null.
 	private static RegisterMenu registerMenu = null;
 
+	// Create the singleton method that allows only one RegisterMenu object to ever
+		// be instantiated.
+		public static synchronized RegisterMenu theOnlyRegisterMenu() {
+			if (registerMenu == null) {
+				registerMenu = new RegisterMenu();
+			}
+			return registerMenu;
+		}
+		
 	// Instantiate RegisterService to pass the data to once registration is done.
 	RegisterService registerService = new RegisterService();
 
-	// Also make a field that is a public scanner.
-	public Scanner scanner = new Scanner(System.in);
+	
 
 	//Additionally, a field to store a final value for going back one menu.
 	final String back = "BACK";
 	
-	// Create the singleton method that allows only one RegisterMenu object to ever
-	// be instantiated.
-	public static synchronized RegisterMenu theOnlyRegisterMenu() {
-		if (registerMenu == null) {
-			registerMenu = new RegisterMenu();
-		}
-		return registerMenu;
-	}
-
-	public void displayRegisterBox(MainMenu mainMenu, LoginMenu loginMenu, RegisterMenu registerMenu) {
+	// Also make a field that is a public scanner.
+		public Scanner scanner = new Scanner(System.in);
+//---------------------------------------------------------------------------------------
+	
+	public void displayRegisterBox(MainMenu mainMenu) {
 
 		//Instructions
 		System.out.println("Please enter a username or BACK to go back to the main Menu.");
@@ -38,7 +42,7 @@ public class RegisterMenu {
 		
 		//Making sure that the input is not "BACK"
 		if(userName.equals(back)) {
-			mainMenu.displayMenuItems(loginMenu, registerMenu);
+			mainMenu.displayMenuItems();
 		}
 		
 // ------------------------------------------------------------------------------------------------
@@ -60,7 +64,7 @@ public class RegisterMenu {
 
 			//Making sure that the input is not "BACK"
 			if(userName.equals(back)) {
-				mainMenu.displayMenuItems(loginMenu, registerMenu);
+				mainMenu.displayMenuItems();
 			}
 			
 			hasOnlyLetters = true;
@@ -81,7 +85,7 @@ public class RegisterMenu {
 		
 		//Making sure that the input is not "BACK"
 		if(userName.equals(back)) {
-			mainMenu.displayMenuItems(loginMenu, registerMenu);
+			mainMenu.displayMenuItems();
 		}
 		
 // ---------------------------------------------------------------------------------------------------------
@@ -94,7 +98,7 @@ public class RegisterMenu {
 			
 			//Making sure that the input is not "BACK"
 			if(userName.equals(back)) {
-				mainMenu.displayMenuItems(loginMenu, registerMenu);
+				mainMenu.displayMenuItems();
 			}
 		}
 
@@ -102,6 +106,6 @@ public class RegisterMenu {
 		User user = new User(userName, passWord);
 
 		// Send that user to registerService to be put into the database.
-		registerService.registerNewUser(user);
+		registerService.registerNewUser(user, mainMenu, registerMenu);
 	}
 }
