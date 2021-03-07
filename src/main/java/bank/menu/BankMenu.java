@@ -31,11 +31,11 @@ public class BankMenu {
 
 		// Case if the user typed "1"
 		case "1":
-			transactionService.deposit(user);
+			transactionService.deposit(user, mainMenu);
 			break;
 		// Case if the user typed "2"
 		case "2":
-			transactionService.withdraw(user);
+			transactionService.withdraw(user, mainMenu);
 			break;
 		// Case if the user typed "3"
 		case "3":
