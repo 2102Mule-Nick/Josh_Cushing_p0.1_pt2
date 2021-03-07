@@ -2,12 +2,13 @@ package bank.menu;
 
 import java.util.Scanner;
 
-//How to set up a singleton
-public final class MainMenu {
+
+public final class MainMenu { // MainMenu is a singleton class. There will only ever be one instantiated.
+	
 	//Make a field that is an object of the MainMenu class. Set it to null.
 	private static MainMenu mainMenu = null;
 	
-	//Also make a field that is a public scanner.
+	//Also make a field that is a public scanner. This is used ot gather user input.
 	public Scanner scanner = new Scanner(System.in);
 	
 	//Create the singleton method that allows only one MainMenu object to ever be instantiated.
@@ -26,17 +27,18 @@ public final class MainMenu {
 		System.out.println("Please pick the number for a corresponding option.");
 		System.out.print("-->");
 
-		String userInput = "";
-		
-		userInput = scanner.next();
+		// Create a variable to hold user input.
+		String userInput = scanner.next();
 		
 		// Switch to handle user decision.
 		switch (userInput) {
 		case "1":
-			loginMenu.displayLoginBox();
+			// If 1 go to login menu.
+			loginMenu.displayLoginBox(mainMenu, loginMenu, registerMenu);
 			break;
 		case "2":
-			registerMenu.displayRegisterBox();
+			// If 2 go to register menu.
+			registerMenu.displayRegisterBox(mainMenu, loginMenu, registerMenu);
 			break;
 		case "3":
 			// If 3 exit the program, no break needed.
