@@ -10,9 +10,9 @@ public class BankMenu {
 	public Scanner scanner = new Scanner(System.in);
 		
 	TransactionService transactionService = new TransactionService();
-	
+
 	public void displayWithAcct(User user, MainMenu mainMenu) {
-		
+
 		// Print instructions
 		System.out.println("<-ACCOUNT MENU->");
 		System.out.println("-->1) Deposit");
@@ -52,15 +52,12 @@ public class BankMenu {
 
 			// Exit the program. No break needed.
 			System.exit(0);
-
-			// What happens if the user types LITERALLY anything else.
 		default:
 			// Print instructions.
 			// In case the user didn't read the prompt, or mistyped.
-			System.out.println("Please type in 1, 2, 3, or 4 for the corresponding option.");
+			System.out.println("Please type in 1, 2, 3, 4, or 5 for the corresponding option.");
 			// Send user back to top of menu.
 			displayWithAcct(user, mainMenu);
 		}
-
 	}
 }

@@ -18,17 +18,17 @@ public final class MainMenu {
 
 //-------------------------------------------------------------------------------------------------------
 	
-		//Create the singleton method that allows only one MainMenu object to ever be instantiated.
-		public static synchronized MainMenu theOnlyMainMenu() {
-			if (mainMenu == null) {
-				mainMenu = new MainMenu();
-				//When it is instantiated, its fields are set to the return
-				//value of their own singleton methods.
-				registerMenu = RegisterMenu.theOnlyRegisterMenu();
-				loginMenu = LoginMenu.theOnlyLoginMenu();
-			}
-			return mainMenu;
+	// Create the singleton method that allows only one MainMenu object to ever be instantiated.
+	public static synchronized MainMenu theOnlyMainMenu() {
+		if (mainMenu == null) {
+			mainMenu = new MainMenu();
+				
+			//When it is instantiated, its fields are set to the return value of their own singleton methods.
+			registerMenu = RegisterMenu.theOnlyRegisterMenu();
+			loginMenu = LoginMenu.theOnlyLoginMenu();
 		}
+		return mainMenu;
+	}
 		
 	public void displayMenuItems() {
 		System.out.println("<-MAIN MENU->");
@@ -45,14 +45,17 @@ public final class MainMenu {
 		switch (userInput) {
 		case "1":
 			// If 1 go to login menu.
+		
 			loginMenu.displayLoginBox(mainMenu);
 			break;
 		case "2":
 			// If 2 go to register menu.
+		
 			registerMenu.displayRegisterBox(mainMenu);
 			break;
 		case "3":
 			// If 3 exit the program, no break needed.
+	
 			System.out.println("Goodbye");
 			System.exit(0);
 		default:
@@ -60,7 +63,7 @@ public final class MainMenu {
 			System.out.println("Please type in 1, 2, or 3 for the corresponding option.");
 
 			// Send user back to top of menu.
-			this.displayMenuItems();
+			displayMenuItems();
 		}
 	}
 }
