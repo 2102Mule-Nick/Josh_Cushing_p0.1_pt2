@@ -47,16 +47,10 @@ public class BankMenu {
 			break;
 		// Case if the user typed "5"
 		case "5":
-			// Print a polite goodbye message.
 			System.out.println("Goodbye");
-
-			// Exit the program. No break needed.
 			System.exit(0);
-		default:
-			// Print instructions.
-			// In case the user didn't read the prompt, or mistyped.
+		default :
 			System.out.println("Please type in 1, 2, 3, 4, or 5 for the corresponding option.");
-			// Send user back to top of menu.
 			displayWithAcct(user, mainMenu);
 		}
 	}

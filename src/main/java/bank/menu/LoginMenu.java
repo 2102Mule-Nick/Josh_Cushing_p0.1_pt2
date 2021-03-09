@@ -27,7 +27,8 @@ public class LoginMenu {
 		}
 		return loginMenu;
 	}
-
+//----------------------------------------------------------------------------------------------------
+	
 	public void displayLoginBox(MainMenu mainMenu) {
 
 		// Prompt user for userName
