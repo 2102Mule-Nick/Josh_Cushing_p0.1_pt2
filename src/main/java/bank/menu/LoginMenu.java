@@ -52,7 +52,7 @@ public class LoginMenu {
 		String passWord = scanner.next();
 
 		// Making sure that the input is not "BACK"
-		if (userName.equals(back)) {
+		if (passWord.equals(back)) {
 			mainMenu.displayMenuItems();
 		}
 

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bank.db.ConnectBox;
-import bank.menu.BankMenu;
 import bank.menu.LoginMenu;
 import bank.menu.MainMenu;
 import bank.pojo.User;

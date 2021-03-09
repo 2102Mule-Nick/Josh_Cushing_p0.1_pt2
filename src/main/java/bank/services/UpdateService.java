@@ -11,6 +11,7 @@ import bank.menu.MainMenu;
 import bank.pojo.User;
 
 public class UpdateService {
+	@SuppressWarnings("resource")
 	public void updateUser(User user, double amount, String type, MainMenu mainMenu) {
 		Connection con = null;
 		ResultSet results = null;
