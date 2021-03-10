@@ -14,22 +14,30 @@ import bank.pojo.User;
 public class UpdateService {
 	// Get a logger
 	static Logger log = Logger.getLogger(UpdateService.class.getName());
-	
-	@SuppressWarnings("resource") //Quieting a leak.
+
+	@SuppressWarnings("resource")
 	public void updateUser(User user, double amount, String type, MainMenu mainMenu) {
-			
+
 		// Set to null just to be safe.
 		Connection con = null;
 		ResultSet results = null;
 		PreparedStatement stmt = null;
-		
+
 		// Values for in-method logic
 		BankMenu bankMenu = new BankMenu();
+		String queryString = "";
+		Double chBal = 0.00;
+		Double svBal = 0.00;
+		int id = 0;
+		
+		//Object variables for brevity.
 		double checkingBal = user.getCheckingBal();
 		double savingBal = user.getSavingBal();
-		boolean recordsFound = false;
-		int id = 0;
-
+		String userName = user.getUserName();
+		String passWord = user.getPassWord();
+		
+		
+		
 		// Try to get a connection
 		try {
 			con = ConnectBox.getConnection();
@@ -38,6 +46,124 @@ public class UpdateService {
 			e.printStackTrace();
 		}
 
+		// GET THE USER ID
+		queryString = "select get_user(?,?)";
+
+		try {
+			stmt = con.prepareStatement(queryString);
+			stmt.setString(1, userName);
+			stmt.setString(2, passWord);
+			results = stmt.executeQuery();
+			if (results.next()) {
+				id = results.getInt("get_user");
+			}
+		} catch (SQLException e1) {
+			log.warning("get_user Function Failure!");
+			e1.printStackTrace();
+		}
+
+		// GET THE CHECKING BAL
+		queryString = "select get_user_ch(?)";
+
+		try {
+			stmt = con.prepareStatement(queryString);
+			stmt.setInt(1, id);
+			results = stmt.executeQuery();
+			if (results.next()) {
+				chBal = results.getDouble("get_user_ch");
+			}
+		} catch (SQLException e1) {
+			log.warning("get_user_ch Function Failure!");
+			e1.printStackTrace();
+		}
+
+		// GET THE SAVING BAL
+		queryString = "select get_user_sv(?)";
+
+		try {
+			stmt = con.prepareStatement(queryString);
+			stmt.setInt(1, id);
+			results = stmt.executeQuery();
+			if (results.next()) {
+				svBal = results.getDouble("get_user_sv");
+			}
+		} catch (SQLException e1) {
+			log.warning("get_user_sv Function Failure!");
+			e1.printStackTrace();
+		}
+		
+		if ("1".equals(type)) {
+			// UPDATE THE CHECKING BAL
+			
+			
+			System.out.println("Your checking account balance was: $" + checkingBal);
+			
+			// New balance
+			checkingBal+=amount;
+
+			// Update the user object
+			user.setCheckingBal(checkingBal);
+
+			// Function
+			queryString = "select update_ch(?, ?)";
+
+			// Try to prep
+			try {
+				stmt = con.prepareStatement(queryString);
+				stmt.setInt(1, id);
+				stmt.setDouble(2, checkingBal);
+				results = stmt.executeQuery();
+				results.close();
+				con.close();
+				System.out.println("It has been updated to: $" + checkingBal);
+			} catch (SQLException e1) {
+				log.warning("update_ch Function Failure!");
+				e1.printStackTrace();
+			}
+		} else if ("2".equals(type)) {
+			// UPDATE THE SAVING BAL
+			
+			// New balance
+			savingBal += amount;
+
+			System.out.println("Your Saving account balance was: $" + savingBal);
+			
+			// Update the user object
+			user.setSavingBal(savingBal);
+			
+			// Function
+			queryString = "select update_sv(?, ?)";
+
+			// Try to prep
+			try {
+				stmt = con.prepareStatement(queryString);
+				stmt.setInt(1, id);
+				stmt.setDouble(2, savingBal);
+				results = stmt.executeQuery();
+				results.close();
+				con.close();
+				System.out.println("It has been updated to: $" + savingBal);
+			} catch (SQLException e1) {
+				log.warning("update_sv Function Failure!");
+				e1.printStackTrace();
+			}
+			//Else print a balance statement.
+		}else {
+			System.out.println("Checking: $" + checkingBal);
+			System.out.println("Saving: $" + savingBal);
+		}
+		
+		// Finally, the user will be passed back to the Bank Menu.
+		bankMenu.displayWithAcct(user, mainMenu);
+	}
+}
+		
+		
+		
+		
+		
+//-----------------------------------------------------------------------------------------------------------------------------------
+		/*
 		// The enormous query below returns the result set of all relevant information from the
 		// three table joined on bank_user_id where condition is username and password.
 				
@@ -134,3 +260,4 @@ public class UpdateService {
 		bankMenu.displayWithAcct(user, mainMenu);
 	}
 }
+			*/

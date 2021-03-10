@@ -13,14 +13,16 @@ import bank.menu.RegisterMenu;
 import bank.pojo.User;
 
 public class RegisterService {
-	
+
 	// Get a logger
 	static Logger log = Logger.getLogger(RegisterService.class.getName());
-	
+
 	public void registerNewUser(String firstName, String lastName, String userName, String passWord, MainMenu mainMenu, RegisterMenu registerMenu) {
 		// Set to null just to be safe.
 		Connection con = null;
+		ResultSet results = null;
 		PreparedStatement stmt = null;
+		String queryString = "";
 		BankMenu bankMenu = new BankMenu();
 
 		// Try to get a connection
@@ -31,17 +33,19 @@ public class RegisterService {
 			e1.printStackTrace();
 		}
 
-		// The query featured here checks for existing combinations of this username and password
-		String queryString = "SELECT bank_user_user_name, bank_user_pass_word FROM bank_user WHERE bank_user_user_name = ? and bank_user_pass_word = ?";
+		// The query featured here checks for existing combinations of this username and
+		// password
+		queryString = "select get_user(?, ?)";
 
 		// Try to prep a statement.
 		try {
 			stmt = con.prepareStatement(queryString);
 			stmt.setString(1, userName);
 			stmt.setString(2, passWord);
-			ResultSet results = stmt.executeQuery();
+			results = stmt.executeQuery();
 
 			// If there is a result that matches the query
+			System.out.println(results.next());
 			if (results.next()) {
 				System.out.println("A user with that password and username exists already.");
 				System.out.println("Please pick different credentials.");
@@ -49,60 +53,61 @@ public class RegisterService {
 				results.close();
 				con.close();
 			} else {
-				// Alert the user. An object at the bottom of the method.
+				// Alert the user.
 				System.out.println("That username and password are available!");
 				results.close();
 			}
 		} catch (SQLException e) {
-			log.warning("Query Prepared Statement Failure");
+			log.warning("get_user Function Failure");
 			e.printStackTrace();
 		}
 
-		// Next we need to insert the user values given into the user table.
-		String insertUserString = "INSERT INTO bank_user(bank_user_f_name, bank_user_l_name, bank_user_user_name, bank_user_pass_word) VALUES (?, ?, ?, ?)";
-		
-		// Again try to prep a statement.
+		// This function inserts the user values given into the user table.
+		String insertUserString = "select insert_new(?, ?, ?, ?)";
+
+		// Try to prep a statement.
 		try {
 			stmt = con.prepareStatement(insertUserString);
 			stmt.setString(1, firstName);
 			stmt.setString(2, lastName);
 			stmt.setString(3, userName);
 			stmt.setString(4, passWord);
-			stmt.execute();			
+			stmt.execute();
 		} catch (SQLException e) {
-			log.warning("Insert User Prepared Statement Failure");
+			log.warning("insert_new Function Failure");
 			e.printStackTrace();
 		}
 
-		// Next we need to insert the checking values into the checking table (default is always 0.00).
-		String insertCheckingString = "INSERT INTO bank_checking_account(bank_user_id, ch_account_bal) VALUES ((SELECT bank_user_id FROM bank_user WHERE bank_user_user_name = ? AND bank_user_pass_word = ?), 0.00)";
-		
-		// Again try to prep a statement.
+		// Next we need to insert the checking values into the checking table (default
+		// is always 0.00).
+		String insertCheckingString = "select insert_new_ch(?, ?)";
+
+		// Try to prep a statement.
 		try {
 			stmt = con.prepareStatement(insertCheckingString);
 			stmt.setString(1, userName);
 			stmt.setString(2, passWord);
 			stmt.execute();
 		} catch (SQLException e) {
-			log.warning("Insert Checking Prepared Statement Failure");
+			log.warning("insert_new_ch Function Failure");
 			e.printStackTrace();
 		}
 
-		// Finally we need to insert the saving values (default is always 0.00).
-		String insertSavingString = "INSERT INTO bank_saving_account(bank_user_id, sv_account_bal) VALUES ((SELECT bank_user_id FROM bank_user WHERE bank_user_user_name = ? AND bank_user_pass_word = ?), 0.00)";
-		
-		// Again try to prep a statement.
+		// Next we need to insert the checking values into the checking table (default
+		// is always 0.00).
+		String insertSavingString = "select insert_new_sv(?, ?)";
+
+		// Try to prep a statement.
 		try {
 			stmt = con.prepareStatement(insertSavingString);
 			stmt.setString(1, userName);
 			stmt.setString(2, passWord);
 			stmt.execute();
-			con.close();
 		} catch (SQLException e) {
-			log.warning("Insert Saving Prepared Statement Failure");
+			log.warning("insert_new_sv Function Failure");
 			e.printStackTrace();
 		}
-		
+				
 		System.out.println("Welcome to your new account " + userName + "!");
 
 		// Instantiate a user object and send it to bankMenu.
