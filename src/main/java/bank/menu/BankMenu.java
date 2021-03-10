@@ -1,16 +1,24 @@
 package bank.menu;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
+
 import bank.pojo.User;
 import bank.services.TransactionService;
 
 public class BankMenu {
 
+	// Get a logger
+	static Logger log = Logger.getLogger(BankMenu.class.getName());
+	
 	// Make a field that is a public scanner.
 	public Scanner scanner = new Scanner(System.in);
-		
+	
+	// We will need a transactionService
 	TransactionService transactionService = new TransactionService();
 
+	// This method acts similarly to the MainMenu.displayMenuItems
+	// method except it holds the suer for as long as the user doesn't back out to the main menu.
 	public void displayWithAcct(User user, MainMenu mainMenu) {
 
 		// Print instructions

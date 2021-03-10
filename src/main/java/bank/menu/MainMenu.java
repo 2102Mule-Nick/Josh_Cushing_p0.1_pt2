@@ -1,14 +1,11 @@
 package bank.menu;
 
 import java.util.Scanner;
-
-//Once I learn how to log...
-//import java.util.logging.Logger;
+import java.util.logging.Logger;
 
 public final class MainMenu {
-
-	// Once I learn how to log...
-	// static Logger log = Logger.getLogger(MainMenu.class.getName());
+	// Get a logger
+	static Logger log = Logger.getLogger(MainMenu.class.getName());
 
 	// Fields with mainMenu, registerMenu, and loginMenu classes.
 	private static MainMenu mainMenu = null;
@@ -28,8 +25,8 @@ public final class MainMenu {
 		if (mainMenu == null) {
 			mainMenu = new MainMenu();
 
-			// When it is instantiated, its fields are set to the return value of their own
-			// singleton methods.
+			// When it is instantiated, its fields are set to 
+			// the return value of their own singleton methods.
 			registerMenu = RegisterMenu.theOnlyRegisterMenu();
 			loginMenu = LoginMenu.theOnlyLoginMenu();
 		}
@@ -37,7 +34,7 @@ public final class MainMenu {
 	}
 //-------------------------------------------------------------------------------------------------------		
 
-	// Main menu UI.
+	// Main menu "UI"
 	public void displayMenuItems() {
 		System.out.println("<-MAIN MENU->");
 		System.out.println("1) Login");
@@ -62,7 +59,7 @@ public final class MainMenu {
 			System.out.println("Goodbye");
 			System.exit(0);
 		default:
-			// Print instructions, recall menu.
+			// If anything else--> print instructions, recall menu.
 			System.out.println("Please type in 1, 2, or 3 for the corresponding option.");
 			displayMenuItems();
 		}

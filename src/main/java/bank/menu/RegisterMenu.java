@@ -1,20 +1,21 @@
 package bank.menu;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import bank.services.RegisterService;
 
 public class RegisterMenu {
 
+	// Get a logger
+	static Logger log = Logger.getLogger(RegisterMenu.class.getName());
+	
 	// An object of the RegisterMenu class.
 	private static RegisterMenu registerMenu = null;
 
 	// An object of the RegisterService class.
 	private RegisterService registerService = new RegisterService();
 	
-	// Additionally, a field to store a final value for going back one menu.
-	public final String back = "0";
-
 	// Also make a field that is a public scanner.
 	public Scanner scanner = new Scanner(System.in);
 
@@ -39,7 +40,7 @@ public class RegisterMenu {
 		String firstName = scanner.next();
 		
 		// Make sure that the input is not "0"
-		if (firstName.equals(back)) {
+		if (firstName.equals("0")) {
 			mainMenu.displayMenuItems();
 		}
 		
@@ -57,7 +58,7 @@ public class RegisterMenu {
 			System.out.print("-->");
 			firstName = scanner.next();
 
-			if (firstName.equals(back)) {
+			if (firstName.equals("0")) {
 				mainMenu.displayMenuItems();
 			}
 			
@@ -77,7 +78,7 @@ public class RegisterMenu {
 		String lastName = scanner.next();
 		
 		// Make sure that the input is not "0"
-		if (lastName.equals(back)) {
+		if (lastName.equals("0")) {
 			mainMenu.displayMenuItems();
 		}
 		
@@ -96,7 +97,7 @@ public class RegisterMenu {
 			lastName = scanner.next();
 
 			// Make sure that the input is not "0"
-			if (lastName.equals(back)) {
+			if (lastName.equals("0")) {
 				mainMenu.displayMenuItems();
 			}
 			
@@ -116,8 +117,8 @@ public class RegisterMenu {
 		// Create a string for the userName that will be entered by the user.
 		String userName = scanner.next();
 
-		// Making sure that the input is not "BACK"
-		if (userName.equals(back)) {
+		// Making sure that the input is not "0"
+		if (userName.equals("0")) {
 			mainMenu.displayMenuItems();
 		}
 
@@ -137,8 +138,8 @@ public class RegisterMenu {
 			System.out.print("-->");
 			userName = scanner.next();
 
-			// Making sure that the input is not "BACK"
-			if (userName.equals(back)) {
+			// Making sure that the input is not "0"
+			if (userName.equals("0")) {
 				mainMenu.displayMenuItems();
 			}
 
@@ -150,16 +151,15 @@ public class RegisterMenu {
 			}
 		}
 		
-//PASSWORD ENTRY----------------------------------------------------------------------------
-		
+		//PASSWORD ENTRY
 		System.out.println("Please enter a password or BACK to go back to the main Menu.");
 		System.out.print("-->");
 
 		// Create a string for the passWord that will be entered by the user.
 		String passWord = scanner.next();
 
-		// Making sure that the input is not "BACK"
-		if (passWord.equals(back)) {
+		// Making sure that the input is not "0"
+		if (passWord.equals("0")) {
 			mainMenu.displayMenuItems();
 		}
 
@@ -170,13 +170,13 @@ public class RegisterMenu {
 			System.out.print("-->");
 			passWord = scanner.next();
 
-			// Making sure that the input is not "BACK"
-			if (passWord.equals(back)) {
+			// Making sure that the input is not "0"
+			if (passWord.equals("0")) {
 				mainMenu.displayMenuItems();
 			}
 		}
 
-		// Send that user to registerService to be put into the database.
+		// Send that data to registerService to be put into the database.
 		registerService.registerNewUser(firstName, lastName, userName, passWord, mainMenu, registerMenu);
 	}
 }
